@@ -5,16 +5,13 @@ import generic.model.PDFFile;
 import generic.model.QABlockBuilder;
 import generic.model.Section;
 
-import java.util.List;
-
 public class App
 {
     public static void main( String[] args )
     {
         PDFFileManager manager = new PDFFileManager();
 
-        PDFFile pdfFile = new PDFFile();
-        pdfFile.setTitle("anotherPDFExample.pdf");
+        PDFFile pdfFile = new PDFFile("stuff/pdf/","pdfExample.pdf");
 
         QABlockBuilder blockBuilder = new QABlockBuilder();
 

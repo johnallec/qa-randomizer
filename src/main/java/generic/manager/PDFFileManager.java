@@ -8,7 +8,6 @@ import com.itextpdf.layout.element.Paragraph;
 import generic.model.PDFFile;
 import generic.model.QABlock;
 import generic.model.Section;
-
 import java.io.FileNotFoundException;
 
 public class PDFFileManager {
@@ -18,7 +17,7 @@ public class PDFFileManager {
     public void create(PDFFile pdfFile) {
         if(pdfFile == null) return;
         try {
-            PdfWriter writer = new PdfWriter(pdfFile.getTitle());
+            PdfWriter writer = new PdfWriter(pdfFile.getCompletePath());
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
             for(Section section : pdfFile.getSections())
