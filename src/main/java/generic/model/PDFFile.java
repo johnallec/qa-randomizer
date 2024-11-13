@@ -10,19 +10,19 @@ public class PDFFile {
     private List<Section> sections;
 
     public PDFFile() {
-        this.sections = new LinkedList<Section>();
+        this.sections = new LinkedList<>();
     }
 
     public PDFFile(String title) {
         this.path = "";
         this.title = title;
-        this.sections = new LinkedList<Section>();
+        this.sections = new LinkedList<>();
     }
 
     public PDFFile(String path, String title) {
         this.path = path;
         this.title = title;
-        this.sections = new LinkedList<Section>();
+        this.sections = new LinkedList<>();
     }
 
     public PDFFile(String title, List<Section> sections) {

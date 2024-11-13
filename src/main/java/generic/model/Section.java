@@ -8,7 +8,7 @@ public class Section {
     private List<QABlock> blocks;
 
     public Section() {
-        this.blocks = new LinkedList<QABlock>();
+        this.blocks = new LinkedList<>();
     }
     public Section(List<QABlock> blocks) {
         this.blocks = blocks;

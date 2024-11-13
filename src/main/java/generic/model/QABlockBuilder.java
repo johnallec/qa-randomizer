@@ -33,7 +33,7 @@ public class QABlockBuilder {
             System.out.println("You must provide the answer.");
             return null;
         }
-        if(this._answers == null) this._answers = new LinkedList<String>();
+        if(this._answers == null) this._answers = new LinkedList<>();
         this._answers.add(answer);
         return this;
     }
