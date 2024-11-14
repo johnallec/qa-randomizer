@@ -10,11 +10,12 @@ import generic.model.QABlock;
 import generic.model.Section;
 import java.io.IOException;
 
-public class PDFFileManager {
+public class PDFFileManager implements Manager<PDFFile> {
 
     public PDFFileManager() {}
 
-    public void create(PDFFile pdfFile) {
+    @Override
+    public void manage(PDFFile pdfFile) {
         if(pdfFile == null) return;
         try (PdfWriter writer = new PdfWriter(pdfFile.getCompletePath());
             PdfDocument pdf = new PdfDocument(writer);

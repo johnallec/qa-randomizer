@@ -1,0 +1,37 @@
+<pdf>
+    <properties myfont="Arial" apply-all="no">
+    <content>
+        <img src="/path/to/the/file" align="center">
+        <text font="Arial" size="14" ></text>
+        <section>
+            <q font="inherit-myfont"></q>
+            <a></a>
+            <a></a>
+            <a></a>
+        </section>
+        <section>
+            <q></q>
+            <a></a>
+            <a></a>
+            <a></a>
+        </section>
+        <section>
+            <q></q>
+            <a></a>
+            <a></a>
+            <a></a>
+        </section>
+        <section>
+            <q></q>
+            <a></a>
+            <a></a>
+            <a></a>
+        </section>
+        <section>
+            <q></q>
+            <a></a>
+            <a></a>
+            <a></a>
+        </section>
+    </content>
+</pdf>

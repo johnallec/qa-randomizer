@@ -5,13 +5,14 @@ import generic.model.PDFFile;
 import generic.model.QABlockBuilder;
 import generic.model.Section;
 
+
 public class App
 {
     public static void main( String[] args )
     {
         PDFFileManager manager = new PDFFileManager();
 
-        PDFFile pdfFile = new PDFFile("stuff/pdf/","pdfExample.pdf");
+        PDFFile pdfFile = new PDFFile("C:/Users/nuke/java-workspace/qa-randomizer-stuff/stuff/pdf/","pdfExample.pdf");
 
         QABlockBuilder blockBuilder = new QABlockBuilder();
 
@@ -28,6 +29,6 @@ public class App
         pdfFile.addSection(secondSection);
         pdfFile.addSection(thirdSection);
 
-        manager.create(pdfFile);
+        manager.manage(pdfFile);
     }
 }

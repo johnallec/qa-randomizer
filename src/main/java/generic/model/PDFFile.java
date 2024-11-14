@@ -3,51 +3,28 @@ package generic.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PDFFile {
+public class PDFFile extends GenericFile{
 
-    private String path;
-    private String title;
     private List<Section> sections;
 
     public PDFFile() {
+        super();
         this.sections = new LinkedList<>();
     }
 
     public PDFFile(String title) {
-        this.path = "";
-        this.title = title;
+        super(title);
         this.sections = new LinkedList<>();
     }
 
     public PDFFile(String path, String title) {
-        this.path = path;
-        this.title = title;
+        super(path,title);
         this.sections = new LinkedList<>();
     }
 
     public PDFFile(String title, List<Section> sections) {
-        this.title = title;
+        super(title);
         this.sections = sections;
-    }
-
-    public String getPath() {
-        return this.path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getCompletePath() {
-        return this.path + this.title;
     }
 
     public List<Section> getSections() {
