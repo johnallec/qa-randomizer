@@ -1,6 +1,6 @@
 package generic.model;
 
-public class GenericFile {
+public abstract class GenericFile<T> {
     
     protected String path;
     protected String title;
@@ -20,6 +20,8 @@ public class GenericFile {
     public String getCompletePath() {
         return this.path + this.title;
     }
+
+    protected abstract void generateDocument() throws Exception;
 
     public String getPath() {
         return this.path;

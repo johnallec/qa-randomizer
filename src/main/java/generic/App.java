@@ -1,18 +1,15 @@
 package generic;
 
-import generic.manager.PDFFileManager;
-import generic.model.PDFFile;
 import generic.model.QABlockBuilder;
 import generic.model.Section;
+import generic.model.manager.PDF;
 
 
 public class App
 {
     public static void main( String[] args )
     {
-        PDFFileManager manager = new PDFFileManager();
-
-        PDFFile pdfFile = new PDFFile("C:/Users/nuke/java-workspace/qa-randomizer-stuff/stuff/pdf/","pdfExample.pdf");
+        var manager = new PDF().new PDFFileManager("C:/Users/nuke/java-workspace/qa-randomizer-stuff/stuff/pdf/","pdfExample.pdf");
 
         QABlockBuilder blockBuilder = new QABlockBuilder();
 
@@ -25,10 +22,10 @@ public class App
         Section thirdSection = new Section();
         thirdSection.addBlock(blockBuilder.question("What is the answer to ALL the questions?").answers("8").answers("48").answers("42").build());
 
-        pdfFile.addSection(firstSection);
-        pdfFile.addSection(secondSection);
-        pdfFile.addSection(thirdSection);
+        manager.getPDFFile().addSection(firstSection);
+        manager.getPDFFile().addSection(secondSection);
+        manager.getPDFFile().addSection(thirdSection);
 
-        manager.manage(pdfFile);
+        manager.manage();
     }
 }
