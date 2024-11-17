@@ -3,12 +3,25 @@ package generic;
 import generic.model.QABlockBuilder;
 import generic.model.Section;
 import generic.model.manager.PDF;
+import generic.model.manager.XML;
 
 
 public class App
 {
     public static void main( String[] args )
     {
+        //java 17.0.13
+
+        //pdfExample();
+
+        XML xml = new XML();
+        var xmlManager = xml.new XMLFileManager("C:/Users/nuke/java-workspace/qa-randomizer-stuff/stuff/xml/","inputExample.xml");
+        xmlManager.manage();
+
+    }
+
+    public static void pdfExample(){
+
         var manager = new PDF().new PDFFileManager("C:/Users/nuke/java-workspace/qa-randomizer-stuff/stuff/pdf/","pdfExample.pdf");
 
         QABlockBuilder blockBuilder = new QABlockBuilder();
@@ -27,5 +40,6 @@ public class App
         manager.getPDFFile().addSection(thirdSection);
 
         manager.manage();
+        
     }
 }

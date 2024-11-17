@@ -1,4 +1,5 @@
 <pdf>
+    
     <properties myfont="Arial" apply-all="no">
     <content>
         <img src="/path/to/the/file" align="center">
