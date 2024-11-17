@@ -72,10 +72,11 @@ public class XML {
                 var nodeTree = new XMLNodeTree(pdfNode);
                 nodeTree.createStructure();
                 System.out.println(nodeTree.numOfTags(nodeTree.getRoot(), 0));
+                System.out.println(nodeTree.numOfTagsByTagName(nodeTree.getRoot(), "section",0));
             }
             finally {}
         }
-
+    
     }
 
 }

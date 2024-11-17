@@ -44,15 +44,21 @@ public class XMLNodeTree {
         int domNodeChildNodesLength = currentNode.getDomNode().getChildNodes().getLength();
         for(int i = 0; i < domNodeChildNodesLength; i++) {
             XMLNode newNode = new XMLNode(currentNode.getDomNode().getChildNodes().item(i));
-            if(!toBeSkipped(newNode)){
-                size = numOfTags(newNode,size);
-            }
+            if(!toBeSkipped(newNode)) size = numOfTags(newNode,size);
         }
         return size;
     }
 
-    public XMLNode depthFirstSearch() {
-        return null;
+    public int numOfTagsByTagName(XMLNode currentNode, String tagName, int size) {
+        if(currentNode == null) return size;
+        if(currentNode.getDomNode().getNodeName().equalsIgnoreCase(tagName)) size = size+1;
+
+        int domNodeChildNodesLength = currentNode.getDomNode().getChildNodes().getLength();
+        for(int i = 0; i < domNodeChildNodesLength; i++) {
+            XMLNode newNode = new XMLNode(currentNode.getDomNode().getChildNodes().item(i));
+            if(!toBeSkipped(newNode)) size = numOfTagsByTagName(newNode,tagName,size);
+        }
+        return size;
     }
     
     public XMLNode breadthFirstSearch() {

@@ -24,6 +24,14 @@ public class XMLNode {
         this.children.add(child);
     }
 
+    public XMLNode getFirstChild() {
+        return this.children.get(0);
+    }
+
+    public XMLNode getLastChild() {
+        return this.children.get(this.children.size()-1);
+    }
+
     public Node getDomNode() {
         return domNode;
     }
