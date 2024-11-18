@@ -1,4 +1,4 @@
-package generic.model;
+package main.model;
 
 public abstract class GenericFile<T> {
     
