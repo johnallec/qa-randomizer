@@ -57,10 +57,10 @@ public class XMLFile extends GenericFile<Document> {
             Section newSection = new Section();
             QABlock block = new QABlock();
 
-            block.setQuestion(xmlSectionNode.getChildren().get(0).getDomNode().getTextContent());
+            block.setQuestion(xmlSectionNode.getFirstChild().getText());
             
-            for(int i = 1; i < xmlSectionNode.getChildren().size(); i++){
-                block.addAnswer(xmlSectionNode.getChildren().get(i).getDomNode().getTextContent());
+            for(int i = 1; i < xmlSectionNode.numOfChildren(); i++){
+                block.addAnswer(xmlSectionNode.getChild(i).getText());
             }
             newSection.addBlock(block);
             pdfFile.addSection(newSection);

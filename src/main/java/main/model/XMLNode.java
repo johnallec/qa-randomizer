@@ -1,6 +1,7 @@
 package main.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.Node;
 
@@ -20,8 +21,7 @@ public class XMLNode {
     }
     
     public void addChild(XMLNode child) {
-        if(child == null) return;
-        this.children.add(child);
+        if(child != null) this.children.add(child);
     }
 
     public XMLNode getFirstChild() {
@@ -30,6 +30,26 @@ public class XMLNode {
 
     public XMLNode getLastChild() {
         return this.children.get(this.children.size()-1);
+    }
+
+    public List<XMLNode> getChildrenByTagName(String tagName) {
+        ArrayList<XMLNode> result = new ArrayList<>(); 
+        for(XMLNode child : this.children)
+            if(child.getTagName().equals(tagName))
+                result.add(child);
+        return result;
+    }
+
+    public XMLNode getChild(int i) {
+        return this.children.get(i);
+    }
+
+    public int numOfChildren() {
+        return this.children.size();
+    }
+
+    public String getText() {
+        return this.getDomNode().getTextContent();
     }
 
     public String getTagName(){
@@ -51,9 +71,9 @@ public class XMLNode {
     public void setFather(XMLNode father) {
         this.father = father;
     }
-    
+
     public ArrayList<XMLNode> getChildren() {
-        return children;
+        return this.children;
     }
     
     public void setChildren(ArrayList<XMLNode> children) {
