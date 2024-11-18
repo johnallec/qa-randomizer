@@ -1,5 +1,7 @@
 package generic.model;
 
+import java.util.ArrayList;
+
 import org.w3c.dom.Node;
 
 public class XMLNodeTree {
@@ -37,28 +39,38 @@ public class XMLNodeTree {
             }
         }
     }
+    
+    public int numOfTags() { return numOfTagsRic(this.root, 0); }
 
-    public int numOfTags(XMLNode currentNode, int size) {
+    public int numOfTagsByTagName(String tagName) { return numOfTagsByTagNameRic(this.root, tagName, 0); }
+
+    public ArrayList<XMLNode> getXMLNodesByTagName(String tagName) {
+        ArrayList<XMLNode> xmlNodes = new ArrayList<>();
+        getXMLNodesByTagNameRic(this.root, tagName, xmlNodes);
+        return xmlNodes;
+    }
+
+    private int numOfTagsRic(XMLNode currentNode, int size) {
         if(currentNode == null) return size;
         size = size+1;
-        int domNodeChildNodesLength = currentNode.getDomNode().getChildNodes().getLength();
-        for(int i = 0; i < domNodeChildNodesLength; i++) {
-            XMLNode newNode = new XMLNode(currentNode.getDomNode().getChildNodes().item(i));
-            if(!toBeSkipped(newNode)) size = numOfTags(newNode,size);
-        }
+        for(XMLNode child : currentNode.getChildren())
+            size = numOfTagsRic(child,size);
         return size;
     }
 
-    public int numOfTagsByTagName(XMLNode currentNode, String tagName, int size) {
+    private int numOfTagsByTagNameRic(XMLNode currentNode, String tagName, int size) {
         if(currentNode == null) return size;
-        if(currentNode.getDomNode().getNodeName().equalsIgnoreCase(tagName)) size = size+1;
-
-        int domNodeChildNodesLength = currentNode.getDomNode().getChildNodes().getLength();
-        for(int i = 0; i < domNodeChildNodesLength; i++) {
-            XMLNode newNode = new XMLNode(currentNode.getDomNode().getChildNodes().item(i));
-            if(!toBeSkipped(newNode)) size = numOfTagsByTagName(newNode,tagName,size);
-        }
+        if(currentNode.getTagName().equalsIgnoreCase(tagName)) size = size+1;
+        for(XMLNode child : currentNode.getChildren())
+            size = numOfTagsRic(child,size);
         return size;
+    }
+
+    private void getXMLNodesByTagNameRic(XMLNode currentNode, String tagName, ArrayList<XMLNode> xmlNodes) {
+        if(currentNode == null) return;
+        if(currentNode.getTagName().equalsIgnoreCase(tagName)) xmlNodes.add(currentNode);
+        for(XMLNode child : currentNode.getChildren())
+            getXMLNodesByTagNameRic(child,tagName,xmlNodes);
     }
     
     public XMLNode breadthFirstSearch() {

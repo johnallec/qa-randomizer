@@ -8,11 +8,11 @@ public class QABlock {
     private String question;
     private List<String> answers;
 
-    protected QABlock() {
+    public QABlock() {
         this.answers = new LinkedList<String>();
     }
 
-    protected QABlock(String question, List<String> answers) {
+    public QABlock(String question, List<String> answers) {
         this.answers = new LinkedList<String>();
         this.question = question;
         this.answers = answers;
@@ -32,5 +32,9 @@ public class QABlock {
 
     public void setAnswers(List<String> answers) {
         this.answers = answers;
+    }
+
+    public void addAnswer(String answer) {
+        this.answers.add(answer);
     }
 }

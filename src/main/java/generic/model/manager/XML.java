@@ -8,6 +8,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import generic.model.GenericFile;
+import generic.model.QABlock;
+import generic.model.Section;
+import generic.model.XMLNode;
 import generic.model.XMLNodeTree;
 
 public class XML {
@@ -28,53 +31,77 @@ public class XML {
             this.xmlFile = new XMLFile(path, title);
         }
 
-        public XMLFile getPDFFile() {
+        public XMLFile getXMLFile() {
             return this.xmlFile;
         }
 
         @Override
         public void manage() {
-            try {
-                this.xmlFile.generateDocument();
-            }
-            catch(IOException ioExc){}
-            catch(SAXException saxExc) {}
-            catch(ParserConfigurationException parserConfigExc) {}
-
+            this.xmlFile.generateStructure();
+            this.xmlFile.generateDocument();
         }
     
     }
     
-    private class XMLFile extends GenericFile<Document> {
+    public class XMLFile extends GenericFile<Document> {
 
         private DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+        private XMLNodeTree tree;
 
-        public XMLFile() {
+        private XMLFile() {
             super();
         }
 
-        public XMLFile(String title) {
+        private XMLFile(String title) {
             super(title);
         }
     
-        public XMLFile(String path, String title) {
+        private XMLFile(String path, String title) {
             super(path,title);
         }
-    
-        @Override
-        protected void generateDocument() throws IOException, SAXException, ParserConfigurationException {
+
+        public void generateStructure() {
             Document document;
             try {
                 document = this.builderFactory.newDocumentBuilder().parse(getCompletePath());
                 document.getDocumentElement().normalize();
                 NodeList nodeList = document.getChildNodes();
                 Node pdfNode = nodeList.item(0);
-                var nodeTree = new XMLNodeTree(pdfNode);
-                nodeTree.createStructure();
-                System.out.println(nodeTree.numOfTags(nodeTree.getRoot(), 0));
-                System.out.println(nodeTree.numOfTagsByTagName(nodeTree.getRoot(), "section",0));
+                this.tree = new XMLNodeTree(pdfNode);
+                this.tree.createStructure();
             }
-            finally {}
+            catch(IOException ioExc){}
+            catch(SAXException saxExc) {}
+            catch(ParserConfigurationException parserConfigExc) {}
+            finally{}
+        }
+
+        @Override
+        protected void generateDocument() {      
+
+            if(this.tree == null) return;
+
+            String pdfPath = "C:/Users/nuke/java-workspace/qa-randomizer-stuff/stuff/pdf/";
+            String pdfTitle = "firstResult.pdf";
+
+            var pdfManager = new PDF().new PDFFileManager(pdfPath,pdfTitle);
+
+
+
+            for(XMLNode xmlSectionNode : this.tree.getXMLNodesByTagName("section")) {
+                Section newSection = new Section();
+                QABlock block = new QABlock();
+
+                block.setQuestion(xmlSectionNode.getChildren().get(0).getDomNode().getTextContent());
+                
+                for(int i = 1; i < xmlSectionNode.getChildren().size(); i++){
+                    block.addAnswer(xmlSectionNode.getChildren().get(i).getDomNode().getTextContent());
+                }
+                newSection.addBlock(block);
+                pdfManager.getPDFFile().addSection(newSection);
+            }
+            pdfManager.manage();
+
         }
     
     }

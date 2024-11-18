@@ -32,6 +32,10 @@ public class XMLNode {
         return this.children.get(this.children.size()-1);
     }
 
+    public String getTagName(){
+        return this.domNode.getNodeName();
+    }
+
     public Node getDomNode() {
         return domNode;
     }
