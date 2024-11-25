@@ -1,23 +1,21 @@
-package main.model;
+package main.model.xml;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import org.w3c.dom.Node;
+import main.model.pdf.elements.PDFElement;
 
 public class XMLNode {
 
-    private Node domNode;
     private XMLNode father;
     private ArrayList<XMLNode> children;
+    private PDFElement element;
 
     public XMLNode() {
         this.children = new ArrayList<>();
     }
 
-    public XMLNode(Node node) {
+    public XMLNode(PDFElement element) {
+        this.element = element;
         this.children = new ArrayList<>();
-        this.domNode = node;
     }
     
     public void addChild(XMLNode child) {
@@ -32,10 +30,10 @@ public class XMLNode {
         return this.children.get(this.children.size()-1);
     }
 
-    public List<XMLNode> getChildrenByTagName(String tagName) {
+    public ArrayList<XMLNode> getChildrenByTagName(String tagName) {
         ArrayList<XMLNode> result = new ArrayList<>(); 
         for(XMLNode child : this.children)
-            if(child.getTagName().equals(tagName))
+            if(child.getElement().getTagName().equals(tagName))
                 result.add(child);
         return result;
     }
@@ -46,22 +44,6 @@ public class XMLNode {
 
     public int numOfChildren() {
         return this.children.size();
-    }
-
-    public String getText() {
-        return this.getDomNode().getTextContent();
-    }
-
-    public String getTagName(){
-        return this.domNode.getNodeName();
-    }
-
-    public Node getDomNode() {
-        return domNode;
-    }
-    
-    public void setDomNode(Node domNode) {
-        this.domNode = domNode;
     }
     
     public XMLNode getFather() {
@@ -80,6 +62,26 @@ public class XMLNode {
         this.children = children;
     }
 
+    public PDFElement getElement() {
+        return this.element;
+    }
+
+    public void setElement(PDFElement element) {
+        this.element = element;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("\n------------------------------\n");
+        builder.append("Tag name: " + this.element.getTagName() +  "\n");
+        builder.append("Attributes: " + this.element.getAttributes().keySet() + "\n");
+        builder.append("Children:");
+        for(XMLNode node : this.children)
+            builder.append(" " + node.element.getTagName());
+        builder.append("\n-----------------------------\n");
+        return builder.toString();
+    }
 
 }
 

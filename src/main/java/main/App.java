@@ -1,9 +1,10 @@
 package main;
 
-import main.model.factory.PDFFile;
-import main.model.factory.PDFFileCreator;
-import main.model.factory.XMLFile;
-import main.model.factory.XMLFileCreator;
+import com.itextpdf.io.font.FontConstants;
+import main.model.pdf.PDFFile;
+import main.model.pdf.PDFFileCreator;
+import main.model.xml.XMLFile;
+import main.model.xml.XMLFileCreator;
 
 public class App
 {
@@ -11,7 +12,7 @@ public class App
     {
         //java 17.0.13
         String pdfPath = "C:/Users/nuke/java-workspace/qa-randomizer-stuff/stuff/pdf/";
-        String pdfTitle = "firstResult.pdf";
+        String pdfTitle = "secondResult.pdf";
 
         String xmlPath = "C:/Users/nuke/java-workspace/qa-randomizer-stuff/stuff/xml/";
         String xmlTitle = "inputExample.xml";
@@ -19,7 +20,7 @@ public class App
         var pdfFileCreator = new PDFFileCreator();
         var xmlFileCreator = new XMLFileCreator();
 
-        PDFFile pdfFile = (PDFFile) pdfFileCreator.createFile();
+        main.model.pdf.PDFFile pdfFile = (PDFFile) pdfFileCreator.createFile();
         pdfFile.setPath(pdfPath);
         pdfFile.setTitle(pdfTitle);
         
@@ -29,6 +30,5 @@ public class App
 
         xmlFile.generateStructure();
         xmlFile.generatePdfFile(pdfFile);
-
     }
 }

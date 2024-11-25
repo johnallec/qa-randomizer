@@ -1,6 +1,6 @@
 package main.model;
 
-public abstract class GenericFile<T> {
+public abstract class GenericFile {
     
     protected String path;
     protected String title;

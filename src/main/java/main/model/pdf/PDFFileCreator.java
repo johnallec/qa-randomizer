@@ -1,5 +1,6 @@
-package main.model.factory;
+package main.model.pdf;
 
+import main.model.FileCreator;
 import main.model.GenericFile;
 
 public class PDFFileCreator extends FileCreator {

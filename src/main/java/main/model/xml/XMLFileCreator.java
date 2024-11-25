@@ -1,5 +1,6 @@
-package main.model.factory;
+package main.model.xml;
 
+import main.model.FileCreator;
 import main.model.GenericFile;
 
 public class XMLFileCreator extends FileCreator {

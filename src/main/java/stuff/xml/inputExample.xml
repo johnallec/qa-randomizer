@@ -2,7 +2,7 @@
     
     <properties myfont="Arial" apply-all="no">
     <content>
-        <img src="/path/to/the/file" align="center">
+        <img src="https://image.spreadshirtmedia.net/image-server/v1/products/T1459A839PA4459PT28D16584487W9971H10000/views/1,width=550,height=550,appearanceId=839,backgroundColor=F2F2F2/smiley-big-smile-adesivo.jpg" align="center">
         <text font="Arial" size="14" ></text>
         <section>
             <q font="inherit-myfont"></q>

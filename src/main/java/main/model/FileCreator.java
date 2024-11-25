@@ -1,6 +1,4 @@
-package main.model.factory;
-
-import main.model.GenericFile;
+package main.model;
 
 public abstract class FileCreator {
     public abstract GenericFile createFile();
