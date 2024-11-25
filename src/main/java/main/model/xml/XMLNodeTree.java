@@ -52,12 +52,10 @@ public class XMLNodeTree {
                             break;
                         default: System.out.println("No q or a found in SectionElement switch. initStructure -> XMLNodeTree");
                     }
-                    newNode.setFather(currentNode);
                 }
-                else {
-                    newNode.setFather(currentNode);
-                    initStructure(newNode);
-                }
+                
+                newNode.setFather(currentNode);
+                initStructure(newNode);
             }
         }
     }

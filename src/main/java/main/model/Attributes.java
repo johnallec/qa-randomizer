@@ -1,11 +1,51 @@
 package main.model;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.layout.element.BlockElement;
+import com.itextpdf.layout.element.List;
+import main.model.Attributes.Text.Font;
+import main.model.xml.XMLNode;
 
 public final class Attributes {
+
+    public class Utilities {
+        
+        public static void applyAttributes(BlockElement blockElement, XMLNode xmlNode) {
+            switch(xmlNode.getElement().getTagName()) {
+                case Tags.pdf: break;
+                case Tags.properties: break;
+                case Tags.content: break;
+                case Tags.text: break;
+                case Tags.image: break;
+                case Tags.section:
+                    applyListAttributes((List) blockElement, xmlNode);    
+                    break;
+                default: break;
+            }
+        }
+    
+        private static void applyListAttributes(List list, XMLNode xmlNode) {
+            HashMap<String,String> sectionAttributes = xmlNode.getElement().getAttributes();
+            
+            if(sectionAttributes.isEmpty()) return;
+            
+            if(sectionAttributes.get("symbol") != null)
+                list.setListSymbol(sectionAttributes.get("symbol"));
+            
+            if(sectionAttributes.get("indent") != null)
+                list.setSymbolIndent(Float.parseFloat(sectionAttributes.get("indent")));
+            
+            try {
+                list.setFont(PdfFontFactory.createFont(Attributes.Text.Font.values.get(sectionAttributes.get(Font.name))));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     
     public final class Text {
 
@@ -36,6 +76,13 @@ public final class Attributes {
 
     }
 
+    public final class Section {
+        
+        public static final class Symbol {
+            public static final String name = "symbol";
+        }
+    }
+
     public final class Properties {
 
         public final class ApplyAll {
@@ -51,6 +98,6 @@ public final class Attributes {
             public static final String name = "src";
         }
 
-    }
+    } 
 
 }

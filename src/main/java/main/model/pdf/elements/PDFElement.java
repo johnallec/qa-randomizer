@@ -62,25 +62,28 @@ public abstract class PDFElement {
         
         if(nodeMap == null) return;
         for(int i = 0; i < nodeMap.getLength(); i++) {
-            Node textFontNode = nodeMap.getNamedItem(Attributes.Text.Font.name);
-            if(  textFontNode != null && Attributes.Text.Font.values.containsKey(textFontNode.getTextContent()) ){
-                this.attributes.put(Attributes.Text.Font.name, textFontNode.getTextContent());
+            switch(this.tagName) {
+                case Tags.image: {
+                    Node imageSourceNode = nodeMap.getNamedItem(Attributes.Image.Source.name);
+                    if( imageSourceNode != null && this.tagName == Tags.image )
+                        this.attributes.put(Attributes.Image.Source.name, imageSourceNode.getTextContent());
+                }
+                case Tags.section: {
+                    Node sectionSymbolNode = nodeMap.getNamedItem(Attributes.Section.Symbol.name);
+                    if(  sectionSymbolNode != null && this.tagName == Tags.section ){
+                        this.attributes.put(Attributes.Section.Symbol.name, sectionSymbolNode.getTextContent());
+                    }
+                }
+                default: {
+                    if(this.tagName.equalsIgnoreCase(Tags.image)) break;
+                    Node textFontNode = nodeMap.getNamedItem(Attributes.Text.Font.name);
+                    if(textFontNode != null && Attributes.Text.Font.values.containsKey(textFontNode.getTextContent()))
+                        this.attributes.put(Attributes.Text.Font.name, textFontNode.getTextContent());
+                    Node textSizeNode = nodeMap.getNamedItem(Attributes.Text.Size.name);
+                        if( textSizeNode != null )
+                            this.attributes.put(Attributes.Text.Size.name, textSizeNode.getTextContent());
+                }
             }
-                
-            //else System.out.println("Font attribute must contain one of: COURIER_BOLD, COURIER_OBLIQUE, COURIER_BOLDOBLIQUE, HELVETICA, HELVETICA_BOLD, HELVETICA_BOLDOBLIQUE, SYMBOL, TIMES_ROMAN, TIMES_BOLD, TIMES_ITALIC, TIMES_BOLDITALIC, ZAPFDINGBATS");
-
-            Node textSizeNode = nodeMap.getNamedItem(Attributes.Text.Size.name);
-            if( textSizeNode != null )
-                this.attributes.put(Attributes.Text.Size.name, textSizeNode.getTextContent());
-            
-            Node applyAllNode = nodeMap.getNamedItem(Attributes.Properties.ApplyAll.name);
-            if( applyAllNode != null && this.tagName == Tags.properties )
-                this.attributes.put(Attributes.Properties.ApplyAll.name, applyAllNode.getTextContent());
-            
-            Node imageSourceNode = nodeMap.getNamedItem(Attributes.Image.Source.name);
-            if( imageSourceNode != null && this.tagName == Tags.image )
-                this.attributes.put(Attributes.Image.Source.name, imageSourceNode.getTextContent());
-
             //if new attributes are added, it should be extended to those too
         }
     }

@@ -1,26 +1,16 @@
 package main.model.pdf;
 
 import java.io.IOException;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.util.HashMap;
 import java.util.LinkedList;
-
-import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.BlockElement;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.List;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.font.FontProvider;
-
 import main.model.Attributes;
 import main.model.GenericFile;
-import main.model.Tags;
 import main.model.pdf.elements.ImageElement;
 import main.model.pdf.elements.PDFElement;
 import main.model.pdf.elements.PDFMainElement;
@@ -96,36 +86,9 @@ public class PDFFile extends GenericFile {
         SectionElement sectionElement = (SectionElement) sectionNode.getElement();
         document.add(new Paragraph(sectionElement.getQuestion()));
         List list = new List();
-        applyAttributes(list, sectionNode);
+        Attributes.Utilities.applyAttributes(list, sectionNode);
         for(String answer : sectionElement.getAnswers())
             list.add(answer);
         document.add(list);
-    }
-
-    private void applyAttributes(BlockElement blockElement, XMLNode xmlNode) {
-        switch(xmlNode.getElement().getTagName()) {
-            case Tags.pdf: break;
-            case Tags.properties: break;
-            case Tags.content: break;
-            case Tags.text: break;
-            case Tags.image: break;
-            case Tags.section:
-                applyListAttributes((List) blockElement, xmlNode);    
-                break;
-            default: break;
-        }
-    }
-
-    private void applyListAttributes(List list, XMLNode xmlNode) {
-        HashMap<String,String> sectionAttributes = xmlNode.getElement().getAttributes();
-        if(sectionAttributes.isEmpty()) return;
-        //list.setListSymbol(sectionAttributes.get("symbol"));
-        //list.setSymbolIndent(Float.parseFloat(sectionAttributes.get("indent")));
-        try {
-            list.setFont(PdfFontFactory.createFont(Attributes.Text.Font.values.get(sectionAttributes.get("font"))));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 }
