@@ -63,17 +63,21 @@ public class PDFFile extends GenericFile {
     }
 
     private void buildElement(XMLNode elementNode, Document document) {
+        
         if(elementNode.getElement() instanceof PDFMainElement)
             return;
         else if(elementNode.getElement() instanceof SectionElement) {
             buildQABlocks(elementNode, document);
         }
-        else if(elementNode.getElement() instanceof TextElement textElement)
-            document.add(new Paragraph().add(textElement.getText()));
+        else if(elementNode.getElement() instanceof TextElement textElement) {
+            Paragraph text = new Paragraph();
+            Attributes.Utilities.applyAttributes(text, elementNode);
+            document.add(text.add(textElement.getText()));
+        }
         else if(elementNode.getElement() instanceof ImageElement imageElement)
             try {
                 document.add(new Image(ImageDataFactory.create(imageElement.getAttributes().get("src"))));
-            } catch (Exception e) {
+            } catch (IOException e) {
                 System.out.println("Image problem, buildElements() -> PDFFile");
                 e.printStackTrace();
             }
@@ -84,7 +88,9 @@ public class PDFFile extends GenericFile {
 
     private void buildQABlocks(XMLNode sectionNode, Document document) {
         SectionElement sectionElement = (SectionElement) sectionNode.getElement();
-        document.add(new Paragraph(sectionElement.getQuestion()));
+        Paragraph paragraph = new Paragraph();
+        Attributes.Utilities.applyAttributes(paragraph, sectionNode.getChild(0));
+        document.add(paragraph);
         List list = new List();
         Attributes.Utilities.applyAttributes(list, sectionNode);
         for(String answer : sectionElement.getAnswers())

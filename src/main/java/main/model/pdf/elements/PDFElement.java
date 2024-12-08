@@ -61,21 +61,24 @@ public abstract class PDFElement {
         NamedNodeMap nodeMap = this.domNode.getAttributes();
         
         if(nodeMap == null) return;
+
         for(int i = 0; i < nodeMap.getLength(); i++) {
             switch(this.tagName) {
                 case Tags.image: {
                     Node imageSourceNode = nodeMap.getNamedItem(Attributes.Image.Source.name);
-                    if( imageSourceNode != null && this.tagName == Tags.image )
+                    if( imageSourceNode != null )
                         this.attributes.put(Attributes.Image.Source.name, imageSourceNode.getTextContent());
+                    break;
                 }
                 case Tags.section: {
                     Node sectionSymbolNode = nodeMap.getNamedItem(Attributes.Section.Symbol.name);
-                    if(  sectionSymbolNode != null && this.tagName == Tags.section ){
+                    if(  sectionSymbolNode != null )
                         this.attributes.put(Attributes.Section.Symbol.name, sectionSymbolNode.getTextContent());
-                    }
+                    Node sectionIndentNode = nodeMap.getNamedItem(Attributes.Section.Indent.name);
+                    if(  sectionIndentNode != null )
+                            this.attributes.put(Attributes.Section.Indent.name, sectionIndentNode.getTextContent());
                 }
                 default: {
-                    if(this.tagName.equalsIgnoreCase(Tags.image)) break;
                     Node textFontNode = nodeMap.getNamedItem(Attributes.Text.Font.name);
                     if(textFontNode != null && Attributes.Text.Font.values.containsKey(textFontNode.getTextContent()))
                         this.attributes.put(Attributes.Text.Font.name, textFontNode.getTextContent());

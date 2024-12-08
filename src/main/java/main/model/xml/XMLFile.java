@@ -7,6 +7,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import main.model.GenericFile;
+import main.model.exceptions.GUIException;
 import main.model.pdf.PDFFile;
 
 public class XMLFile extends GenericFile {
@@ -30,7 +31,7 @@ public class XMLFile extends GenericFile {
         return this.tree;
     }
 
-    public void generateStructure() {
+    public void generateStructure() throws GUIException {
         Document document;
         try {
             document = this.builderFactory.newDocumentBuilder().parse(getCompletePath());

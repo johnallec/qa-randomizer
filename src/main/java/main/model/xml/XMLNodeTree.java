@@ -3,6 +3,9 @@ package main.model.xml;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import org.w3c.dom.NodeList;
+
+import main.model.Tags;
+import main.model.exceptions.GUIException;
 import main.model.pdf.elements.PDFElementCreator;
 import main.model.pdf.elements.SectionElement;
 
@@ -29,12 +32,55 @@ public class XMLNodeTree {
         this.root = new XMLNode(pdfElementCreator.createPDFElement(nodeList.item(0).getNodeName()));
     }
 
-    public void createStructure() {
-        initStructure(root);
+    public void createStructure() throws GUIException {
+        initStructure(this.root);
+        validateStructure();
     }
 
-    private void initStructure(XMLNode currentNode) {
-        if(currentNode == null) return;
+    private void validateStructure() {
+        LinkedList<XMLNode> queue = new LinkedList<>();
+        queue.add(this.root);
+        XMLNode currentNode = queue.pop();
+        while(currentNode != null) {
+            for(XMLNode child : currentNode.getChildren()) {
+                switch (currentNode.getElement().getTagName()) {
+                    case Tags.pdf:
+                        if(child.getElement().getTagName() != Tags.properties
+                            && child.getElement().getTagName() != Tags.content)
+                            System.out.println("Pdf exception");
+                        break;
+                    case Tags.properties, Tags.text, Tags.image, Tags.question, Tags.answer: {
+                        if(child != null)
+                            System.out.println("Properties|text|question|answer exception");
+                        break;
+                    }
+                    case Tags.content: {
+                        if(child.getElement().getTagName() != Tags.section
+                            && child.getElement().getTagName() != Tags.text
+                            && child.getElement().getTagName() != Tags.image)
+                            System.out.println("Content exception");
+                        break;
+                    }
+                    case Tags.section: {
+                        if(child.getElement().getTagName() != Tags.question
+                            && child.getElement().getTagName() != Tags.answer)
+                            System.out.println("Section exception");
+                        break;
+                    }
+                    default:
+                        
+                }
+                queue.add(child);
+            }
+            if(queue.isEmpty())
+                currentNode = null;
+            else
+                currentNode = queue.pop();
+        }
+    }
+
+    private void initStructure(XMLNode currentNode) throws GUIException {
+        if(currentNode == null) throw new GUIException("Can't initialize the XML structure.");
 
         int domNodeChildNodesLength = currentNode.getElement().getDomNodeChildNodesLength();
         for(int i = 0; i < domNodeChildNodesLength; i++) {

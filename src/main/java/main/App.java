@@ -1,6 +1,8 @@
 package main;
 
-import com.itextpdf.io.font.FontConstants;
+import java.util.LinkedList;
+
+import main.model.exceptions.GUIException;
 import main.model.pdf.PDFFile;
 import main.model.pdf.PDFFileCreator;
 import main.model.xml.XMLFile;
@@ -27,8 +29,14 @@ public class App
         XMLFile xmlFile = (XMLFile) xmlFileCreator.createFile();
         xmlFile.setPath(xmlPath);
         xmlFile.setTitle(xmlTitle);
-
-        xmlFile.generateStructure();
+        
+        try{
+            xmlFile.generateStructure();
+        }
+        catch(GUIException guiExc) {
+            guiExc.raiseAlert();
+        }
+        
         xmlFile.generatePdfFile(pdfFile);
     }
 }

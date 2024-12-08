@@ -6,6 +6,7 @@ import java.util.Map;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.layout.element.BlockElement;
 import com.itextpdf.layout.element.List;
+import com.itextpdf.layout.element.Paragraph;
 import main.model.Attributes.Text.Font;
 import main.model.xml.XMLNode;
 
@@ -18,31 +19,49 @@ public final class Attributes {
                 case Tags.pdf: break;
                 case Tags.properties: break;
                 case Tags.content: break;
-                case Tags.text: break;
-                case Tags.image: break;
-                case Tags.section:
-                    applyListAttributes((List) blockElement, xmlNode);    
+                case Tags.text: {
+                    applyTextAttributes((Paragraph) blockElement, xmlNode);
                     break;
+                }
+                case Tags.image: break;
+                case Tags.section: {
+                    applyListAttributes((List) blockElement, xmlNode); 
+                    break;
+                }
                 default: break;
             }
         }
     
+        private static void applyTextAttributes(Paragraph text, XMLNode xmlNode) {
+            HashMap<String,String> textAttributes = xmlNode.getElement().getAttributes();
+            
+            if(textAttributes.isEmpty()) return;
+            System.out.println(xmlNode.getElement().getTagName());
+            if(textAttributes.get(Font.name) != null)
+                try {
+                    text.setFont(PdfFontFactory.createFont(Attributes.Text.Font.values.get(textAttributes.get(Font.name))));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
+
         private static void applyListAttributes(List list, XMLNode xmlNode) {
             HashMap<String,String> sectionAttributes = xmlNode.getElement().getAttributes();
             
             if(sectionAttributes.isEmpty()) return;
             
-            if(sectionAttributes.get("symbol") != null)
-                list.setListSymbol(sectionAttributes.get("symbol"));
+            if(sectionAttributes.get(Section.Symbol.name) != null)
+                list.setListSymbol(sectionAttributes.get(Section.Symbol.name));
             
-            if(sectionAttributes.get("indent") != null)
-                list.setSymbolIndent(Float.parseFloat(sectionAttributes.get("indent")));
+            if(sectionAttributes.get(Section.Indent.name) != null)
+                list.setSymbolIndent(Float.parseFloat(sectionAttributes.get(Section.Indent.name)));
             
-            try {
-                list.setFont(PdfFontFactory.createFont(Attributes.Text.Font.values.get(sectionAttributes.get(Font.name))));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            if(sectionAttributes.get(Font.name) != null)
+                try {
+                    list.setFont(PdfFontFactory.createFont(Attributes.Text.Font.values.get(sectionAttributes.get(Font.name))));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
     }
 
@@ -81,6 +100,11 @@ public final class Attributes {
         public static final class Symbol {
             public static final String name = "symbol";
         }
+
+        public static final class Indent {
+            public static final String name = "indent";
+        }
+
     }
 
     public final class Properties {
